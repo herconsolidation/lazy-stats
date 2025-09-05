@@ -1,6 +1,8 @@
 streamlit
 MetaTrader5
+python
 pandas
 plotly
 numpy
 html2image
+
