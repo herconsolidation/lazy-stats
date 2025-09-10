@@ -3,4 +3,4 @@ pandas
 plotly
 numpy
 html2image
-MetaTrader5==5.0.5200
+MetaTrader5==1.26.4
