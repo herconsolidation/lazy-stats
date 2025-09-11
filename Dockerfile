@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     wine64 \
     winetricks \
     xvfb \
-    x11vnc \
     python3-pip \
     git \
     --no-install-recommends && \
@@ -35,11 +34,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy your Streamlit application code
 COPY . .
 
-# Copy the start script and make it executable
-COPY start.sh .
-RUN chmod +x ./start.sh
-
 # Expose the port Streamlit runs on
 EXPOSE 8501
 
-# The start command is now in start.sh, which will be executed by Render's Start Command
+# This command will be automatically executed by Render
+CMD Xvfb :99 -screen 0 1024x768x24 & \
+    wine "C:\Program Files\MetaTrader 5\terminal64.exe" & \
+    streamlit run main.py --server.port 8501 --server.enableCORS false --server.enableXsrfProtection false
