@@ -35,10 +35,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy your Streamlit application code
 COPY . .
 
+# Copy the start script and make it executable
+COPY start.sh .
+RUN chmod +x ./start.sh
+
 # Expose the port Streamlit runs on
 EXPOSE 8501
 
-# Start Xvfb and then your Streamlit app
-CMD Xvfb :99 -screen 0 1024x768x24 & \
-    wine "C:\Program Files\MetaTrader 5\terminal64.exe" & \
-    python -m streamlit run main.py --server.port 8501 --server.enableCORS false --server.enableXsrfProtection false
+# The start command is now in start.sh, which will be executed by Render's Start Command
