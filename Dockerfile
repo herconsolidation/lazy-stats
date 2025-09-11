@@ -41,4 +41,4 @@ EXPOSE 8501
 # Start Xvfb and then your Streamlit app
 CMD Xvfb :99 -screen 0 1024x768x24 & \
     wine "C:\Program Files\MetaTrader 5\terminal64.exe" & \
-    streamlit run main.py --server.port 8501 --server.enableCORS false --server.enableXsrfProtection false
+    python -m streamlit run main.py --server.port 8501 --server.enableCORS false --server.enableXsrfProtection false
