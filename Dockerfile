@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install -y \
 # Enable multi-arch and install wine32
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y wine32
 
-# Configure Wine
-RUN winecfg -v=win7
+# Configure Wine and ensure prefix is updated
+RUN winecfg -v=win7 && wineboot -u
 
 # Create a directory for the MT5 installer and copy it
 WORKDIR /app
@@ -29,6 +29,11 @@ COPY mt5setup.exe .
 
 # Install MetaTrader 5
 RUN wine mt5setup.exe /S
+
+# --- DEBUGGING STEP (TEMPORARY) ---
+# List contents of the Wine prefix to find where MT5 installed
+RUN ls -R /opt/mt5_wine/drive_c/
+# --- END DEBUGGING STEP ---
 
 # Install Python dependencies
 COPY requirements.txt .
