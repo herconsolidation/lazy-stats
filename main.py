@@ -1,5 +1,5 @@
 import streamlit as st
-import MetaTrader5 as mt5
+#import MetaTrader5 as mt5
 import pandas as pd
 from datetime import datetime, timedelta
 import calendar
@@ -248,3 +248,4 @@ else:
             components.html(html_code, height=800, scrolling=True)
         else:
             st.warning("No trading history found for the selected date range.")
+
