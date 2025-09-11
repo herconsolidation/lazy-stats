@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
+# Enable multi-arch and install wine32
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y wine32
+
 # Configure Wine
 RUN winecfg -v=win7
 
