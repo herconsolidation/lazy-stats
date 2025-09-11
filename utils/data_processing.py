@@ -1,5 +1,5 @@
 import streamlit as st
-import MetaTrader5 as mt5
+#import MetaTrader5 as mt5
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
@@ -181,3 +181,4 @@ def calculate_monthly_stats(daily_stats, year, month):
         'percentage_change': percentage_change,
         'total_trades': int(total_trades)
     }
+
