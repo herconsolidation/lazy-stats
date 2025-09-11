@@ -1,0 +1,44 @@
+# Use a base image with Ubuntu and Python pre-installed
+FROM ubuntu:22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV WINEPREFIX=/opt/mt5_wine
+ENV DISPLAY=:99
+
+# Install necessary packages: Wine, Xvfb, and other dependencies
+RUN apt-get update && apt-get install -y \
+    wine \
+    wine64 \
+    winetricks \
+    xvfb \
+    x11vnc \
+    python3-pip \
+    git \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
+# Configure Wine
+RUN winecfg -v=win7
+
+# Create a directory for the MT5 installer and copy it
+WORKDIR /app
+COPY mt5setup.exe .
+
+# Install MetaTrader 5
+RUN wine mt5setup.exe /S
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy your Streamlit application code
+COPY . .
+
+# Expose the port Streamlit runs on
+EXPOSE 8501
+
+# Start Xvfb and then your Streamlit app
+CMD Xvfb :99 -screen 0 1024x768x24 & \
+    wine "C:\Program Files\MetaTrader 5\terminal64.exe" & \
+    streamlit run main.py --server.port 8501 --server.enableCORS false --server.enableXsrfProtection false
