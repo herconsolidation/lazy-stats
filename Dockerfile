@@ -27,8 +27,8 @@ RUN winecfg -v=win7 && wineboot -u
 WORKDIR /app
 COPY mt5setup.exe .
 
-# Install MetaTrader 5
-RUN wine mt5setup.exe /S
+# Install MetaTrader 5 with a timeout and verbose output
+RUN xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" timeout 300 wine mt5setup.exe /auto
 
 # --- DEBUGGING STEP (TEMPORARY) ---
 # List contents of the Wine prefix to find where MT5 installed
